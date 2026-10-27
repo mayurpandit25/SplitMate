@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: splitmate-backend
+  namespace: splitmate
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: splitmate-backend
+  template:
+    metadata:
+      labels:
+        app: splitmate-backend
+    spec:
+      containers:
+        - name: backend
+          image: YOUR_BACKEND_IMAGE
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+
+          envFrom:
+            - configMapRef:
+                name: splitmate-backend-config
+            - secretRef:
+                name: splitmate-backend-secret
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 20

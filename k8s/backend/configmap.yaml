@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: splitmate-backend-config
+  namespace: splitmate
+data:
+  PORT: "8080"
+  NODE_ENV: "production"
+  DB_PORT: "3306"
+  DB_NAME: "splitmate"
+  FRONTEND_ORIGIN: "https://mayurcbz.space"
+  JWT_EXPIRES_IN: "7d"

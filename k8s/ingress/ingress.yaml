@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: splitmate-ingress
+  namespace: splitmate
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: mayurcbz.space
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: splitmate-backend
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: splitmate-frontend
+                port:
+                  number: 80
